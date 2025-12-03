@@ -64,6 +64,8 @@ let load fichier =
     let res = loop grid 0 in
     close_in ouvert;
     res
+
+(*
 let piece_to_string_ceilling p = 
   if p.mur_h then "+-+"
   else "+ +"
@@ -76,8 +78,28 @@ let piece_to_string_wall p =
 let piece_to_string_floor p = 
   if p.mur_b then "+-+"
   else "+ +"
+*)
 
-let print g =
+let piece_to_string p =
+  match (p.mur_h, p.mur_b, p.mur_g, p.mur_d) with
+  | (true, true, true, true) -> ("+-+", "|  |", "+-+")
+  | (true, true, true, false) -> ("+-+", "|   ", "+-+")
+  | (true, true, false, true) -> ("+-+", "   |", "+-+")
+  | (true, true, false, false) -> ("+-+", "    ", "+-+")
+  | (true, false, true, true) -> ("+-+", "|  |", "+ +")
+  | (true, false, true, false) -> ("+-+", "|   ", "+ +")
+  | (true, false, false, true) -> ("+-+", "   |", "+ +")
+  | (true, false, false, false) -> ("+-+", "    ", "+ +")
+  | (false, true, true, true) -> ("   ", "|  |", "+-+")
+  | (false, true, true, false) -> ("   ", "|   ", "+-+")
+  | (false, true, false, true) -> ("   ", "   |", "+-+")
+  | (false, true, false, false) -> ("   ", "    ", "+-+")
+  | (false, false, true, true) -> ("   ", "|  |", "+ +")
+  | (false, false, true, false) -> ("   ", "|   ", "+ +")
+  | (false, false, false, true) -> ("   ", "   |", "+ +")
+  | (false, false, false, false) -> ("   ", "    ", "+ +")
+
+(*let print g =
   Array.iter (fun ligne ->
     let floor_array = Array.map piece_to_string_ceilling ligne in
     Array.iter print_endline floor_array;
@@ -85,4 +107,16 @@ let print g =
     Array.iter print_endline wall_array
   ) g;
   Array.iter print_endline (Array.map (piece_to_string_floor) (g.((Array.length g) - 1)))
+*)
 
+let print g =
+  Array.iter (fun array ->
+     let ceilling_line, wall_line, floor_line =
+      Array.fold_left (fun (c_acc, w_acc, f_acc) p ->
+         let c, w, f =
+          piece_to_string p in (c_acc ^ c, w_acc ^ w, f_acc ^ f)) ("", "", "") array
+          in
+          print_endline ceilling_line;
+          print_endline wall_line;
+          print_endline floor_line;
+      ) g
