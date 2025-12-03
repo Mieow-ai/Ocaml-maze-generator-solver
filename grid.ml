@@ -1,5 +1,7 @@
 type piece =
   {
+    mutable sortie : bool;
+    mutable entree : bool;
     mutable mur_h : bool;
     mutable mur_b : bool;
     mutable mur_d : bool;
@@ -60,8 +62,53 @@ let lire_ligne_piece ligne dim =
     loop
 
 
-  
-    
+    let create_grid_line l1 l2 l3 dim=
+          let dim_grid = ((snd dim-1) / 2,(fst dim-1) / 2) in
+          let res = Array.init (snd dim_grid) (fun _ ->              
+            { sortie = false; entree = false; mur_h = false; mur_b = false;             
+            mur_g = false; mur_d = false }) in
+          let rec loop haut cote res = 
+            if (haut < snd dim_grid && cote < snd dim_grid) then
+              match l1[2*haut +1],l3[2*haut +1] with
+                |("-","-") -> res.(haut).mur_h <- true; res.(haut).mur_b <- true;
+                              begin match ( l2[cote*2 - 2], l2[cote*2]) with
+                                |("|", "|") -> res.(cote).mur_g <- true; res.(cote).mur_d <- true
+                                |(" ", " ") -> ()
+                                |("|", " ") -> res.(cote).mur_g <- true
+                                |(" ", "|") -> res.(cote).mur_d <- true
+                                |_ -> failwith "Erreur de format"
+                              end
+                |(" ", " ")-> begin match ( l2[cote*2 - 2], l2[cote*2]) with
+                                |("|", "|") -> res.(cote).mur_g <- true; res.(cote).mur_d <- true
+                                |(" ", " ") -> ()
+                                |("|", " ") -> res.(cote).mur_g <- true
+                                |(" ", "|") -> res.(cote).mur_d <- true
+                                |_ -> failwith "Erreur de format"
+                              end
+                |("-"," ") -> res.(haut).mur_h <- true;
+                              begin match ( l2[cote*2 - 2], l2[cote*2]) with
+                                |("|", "|") -> res.(cote).mur_g <- true; res.(cote).mur_d <- true
+                                |(" ", " ") -> ()
+                                |("|", " ") -> res.(cote).mur_g <- true; loop (haut+1) (cote+1) res
+                                |(" ", "|") -> res.(cote).mur_d <- true; loop (haut+1) (cote+1) res
+                                |_ -> failwith "Erreur de format"
+                              end
+                |(" ", "-") ->res.(haut).mur_b <- true;
+                              begin match ( l2[cote*2 - 2], l2[cote*2]) with
+                                |("|", "|") -> res.(cote).mur_g <- true; res.(cote).mur_d <- true; loop (haut+1) (cote+1) res
+                                |(" ", " ") -> loop (haut+1) (cote+1) res
+                                |("|", " ") -> res.(cote).mur_g <- true; loop (haut+1) (cote+1) res
+                                |(" ", "|") -> res.(cote).mur_d <- true; loop (haut+1) (cote+1) res
+                                |_ -> failwith "Erreur de format"
+                              end
+                |_ -> failwith "Erreur de format"
+      
+
+          
+
+
+  let load _ = failwith "todo"
+  let print _ = failwith "todo"
   
 
 (*let load fichier =
@@ -125,7 +172,7 @@ let piece_to_string_floor p =
   else "+ +"
 *)
 
-let piece_to_string p =
+(*let piece_to_string p =
   match (p.mur_h, p.mur_b, p.mur_g, p.mur_d) with
   | (true, true, true, true) -> ("+-+", "|  |", "+-+")
   | (true, true, true, false) -> ("+-+", "|   ", "+-+")
@@ -143,6 +190,7 @@ let piece_to_string p =
   | (false, false, true, false) -> ("   ", "|   ", "+ +")
   | (false, false, false, true) -> ("   ", "   |", "+ +")
   | (false, false, false, false) -> ("   ", "    ", "+ +")
+*)
 
 (*let print g =
   Array.iter (fun ligne ->
@@ -153,7 +201,7 @@ let piece_to_string p =
   ) g;
   Array.iter print_endline (Array.map (piece_to_string_floor) (g.((Array.length g) - 1)))
 *)
-
+(*
 let print g =
   Array.iter (fun array ->
      let ceilling_line, wall_line, floor_line =
@@ -165,3 +213,5 @@ let print g =
           print_endline wall_line;
           print_endline floor_line;
       ) g
+
+*)
