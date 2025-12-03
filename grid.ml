@@ -9,18 +9,62 @@ type grid = (piece array) array                 (*Notre grille qui est constitu�
 
 let dim fichier =
   let ouvert = open_in fichier in
-  let rec loop lignes colonnes =
+  let rec loop acc =
     try
-      let ligne = input_line ouvert in
-      let len = String.length ligne in
-      loop (lignes + 1) (max colonnes len)
+      let _ = input_line ouvert in
+      loop acc+1
     with End_of_file ->
       close_in ouvert;
-      (lignes, colonnes)
+      acc
   in
-  loop 0 0
+  (loop 0, String.length (input_line ouvert))
+
+
+let lire_ligne_murs ligne dim=
+  let longueur = String.length ligne in
+  if fst dim != longueur then failwith "La ligne n'est pas à la bonne longueur"
+  else
+  let rec loop indice car =
+    if indice < longueur then
+      match car with 
+        |'+'->loop (indice+1) ligne.[indice+1] 
+        |'-'->loop (indice+1) ligne.[indice+1]
+        |_-> failwith "Un mur ne peut être que + ou -" in
+  loop 0 ligne.[0]
+  
+let lire_ligne_piece ligne dim =
+  let longueur = String.length ligne in
+  if fst dim != longueur then failwith "La ligne n'est pas à la bonne longueur"
+  else
+  let rec loop indice car =
+    if indice < longueur then
+      match car with 
+        |' '->loop (indice+1) ligne.[indice+1]
+        |'S'->loop (indice+1) ligne.[indice+1]
+        |'E'->loop (indice+1) ligne.[indice+1]
+        |'|'->loop (indice+1) ligne.[indice+1]
+        |_-> failwith "Le format n'est pas respecté" in
+  loop 0 ligne.[0]
+
+  let check_format fichier = 
+    let dimension = dim fichier in
+    let ouvert = open_in fichier in
+    let rec loop = 
+      try
+        let l1 = input_line ouvert in
+        lire_ligne_murs l1 dimension;
+        let l2 = input_line ouvert in
+        lire_ligne_piece l2 dimension;
+      with End_of_file ->
+        close_in ouvert in
+    loop
+
+
+  
     
-let load fichier =
+  
+
+(*let load fichier =
   let (h, w) = dim fichier in
   let ouvert = open_in fichier in
   let grid =
@@ -64,6 +108,7 @@ let load fichier =
     let res = loop grid 0 in
     close_in ouvert;
     res
+    *)
 
 (*
 let piece_to_string_ceilling p = 
