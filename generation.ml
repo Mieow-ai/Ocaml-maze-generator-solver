@@ -2,21 +2,21 @@
 (*Renvoie une ligne de toits random (donc constituée de + et de -)*)
 let random_line_floors length =
   let rec loop i acc =                                      (*On s'arrête quand on a atteint la longueur d'une ligne*)
-    if i = length then acc
+    if i = length then acc ^ "+"
     else
       let r = Random.int 100 in                             (*Deux choix possibles pour les toits (soit '-' soit ' ')*)
       let acc =
-        if r < 50 then acc ^ "-+"
-        else acc ^ " +"
+        if r < 50 then acc ^ "+-"
+        else acc ^ "+ "
       in
       loop (i + 1) acc
   in
-  loop 0 "+"
+  loop 0 ""
 
 (*Renvoie une ligne de murs random (donc constituée de | et de " ") pour l'instant*)
 let random_line_walls length =
   let rec loop i acc =
-    if i = length then acc
+    if i = length - 1 then acc ^ "|"
     else
       let r = Random.int 100 in                             (*Deux choix possibles pour les toits (soit '|' soit ' ')*)
       let acc =
@@ -25,7 +25,7 @@ let random_line_walls length =
       in
       loop (i + 1) acc
   in
-  loop 0 ""
+  loop 0 "| "
 
 (*Renvoie des coordonnées aléatoires (x,y) pour nos entrées sorties*)
 let random_positions n m =
@@ -40,25 +40,32 @@ let random_positions n m =
   let s_row, s_col = choix () in
   (e_row, e_col, s_row, s_col)
 
+  let first_and_last m =
+  let rec loop res m =
+    if m = 0 then res ^ "+"
+    else loop (res ^ "+-") (m - 1)
+  in
+  loop "" m
+
 (*Renvoie un fichier dans lequel a été écrit un labyrinthe généré aléatoirement*)
 let random n m filename =
   let file = open_out filename in
   let e_row, e_col, s_row, s_col = random_positions n m in
-  output_string file (random_line_floors m ^ "\n");         (*On écrit la première ligne*)
-  for row = 0 to n - 1 do                                   (*Puis on écrit à chaque ligne de pièces, la ligne de murs et de toits (ici sols)*)
-    output_string file (random_line_floors m ^ "\n");       (*sols*)
-    let base = random_line_walls m in                       (*murs sans 'E' et 'S'*)
-    let chars = Bytes.of_string base in                     (*conversion en bits car les string sont immuables, avec les bits on peut modifier plus facilement*)
-    let pos =                                               (*dire si l'on est sur au moins une ligne correspondante à la future position de 'E' ou 'S'*)
-      if row = e_row then e_col
-      else if row = s_row then s_col
-      else -1
-    in
-    if pos <> -1 then
-      Bytes.set chars pos (if row = e_row then 'E' else 'S');      (*On l'écrit dans notre écriture en bits*)
+  let first_and_last = first_and_last m in
 
-    output_string file (Bytes.to_string chars ^ "\n");                (*Puis on affiche la ligne de murs après re-conversion en string*)
+  output_string file (first_and_last ^ "\n");                 (* ligne du premier toit *)
+
+  for row = 0 to n - 2 do
+    let base = random_line_walls m in                         (* ligne des murs *)
+    let chars = Bytes.of_string base in
+    if row = e_row then Bytes.set chars (2 * e_col + 1) 'E';  (* placement de E et S *)
+    if row = s_row then Bytes.set chars (2 * s_col + 1) 'S';
+    output_string file (Bytes.to_string chars ^ "\n");
+    output_string file (random_line_floors m ^ "\n");         (* ligne des sols *)
   done;
+  output_string file (random_line_walls m ^ "\n");            (* ligne du toit de la dernière rangée *)
+  output_string file (first_and_last ^ "\n");                 (* ligne du dernier sol *)
+
   close_out file
 
 

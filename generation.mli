@@ -10,3 +10,6 @@ val random_positions : int -> int -> int * int * int * int
 
 (*Renvoie un fichier dans lequel a été écrit un labyrinthe généré aléatoirement*)
 val random : int -> int -> string -> unit
+
+(*Renvoie la chaîne de caractère de la première et dernière ligne d'un labyrinthe*)
+val first_and_last : int -> string

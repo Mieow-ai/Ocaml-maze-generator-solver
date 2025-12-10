@@ -28,10 +28,9 @@ let () =
         | "random" -> (
             let n = Sys.argv.(2) in
             let m = Sys.argv.(3) in
-            let filename = Sys.argv.(4) in
-            failwith "Pas encore implémenté"
-            (*Generation.random n m filename;
-            Printf.printf "Labyrinthe généré dans le fichier : %s" filename*)
+            let nom = Sys.argv.(4) in
+            Generation.random (int_of_string n) (int_of_string m) nom;
+            Printf.printf "Labyrinthe aléatoire généré dans %s\n" nom;
         )
         | "--help" -> ()
         | "solve" -> ()
