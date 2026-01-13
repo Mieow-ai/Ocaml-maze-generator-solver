@@ -32,6 +32,16 @@ let () =
             Generation.random (int_of_string n) (int_of_string m) nom;
             Printf.printf "Labyrinthe aléatoire généré dans %s\n" nom;
         )
-        | "--help" -> ()
+        | "--help" ->
+            print_endline "~~~~~~~~~~~~~~~~~~HELP~~~~~~~~~~~~~~~~~~~";
+            print_endline "Usage : ./maze.exe <commande> [arguments]";
+            print_endline "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~";
+            print_endline "Commandes à dispositions :";
+            print_endline "  print <fichier>                  : Charge le fichier en mémoire (Grid.load) et l'affiche.";
+            print_endline "  print2 <fichier>                 : Affiche directement le contenu brut d'un fichier.";
+            print_endline "  random <lignes> <colonnes> <nom> : Génère un labyrinthe aléatoire de dimensions données et le sauvegarde.";
+            print_endline "  solve                            : Résout le labyrinthe.";
+            print_endline "  --help                           : Affiche ce message d'aide.";
+            print_endline "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
         | "solve" -> ()
         | _ -> failwith "Commande manquante"
