@@ -43,5 +43,12 @@ let () =
             print_endline "  solve                            : Résout le labyrinthe.";
             print_endline "  --help                           : Affiche ce message d'aide.";
             print_endline "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
-        | "solve" -> ()
+        | "solve" -> (
+            if Array.length Sys.argv < 3 then
+                failwith "fichier à résoudre manquant"
+            else
+                let fichier = Sys.argv.(2) in
+                let g = Grid.load fichier in
+                Solve.solve g
+        )
         | _ -> failwith "Commande manquante"

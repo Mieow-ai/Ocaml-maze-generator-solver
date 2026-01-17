@@ -1,5 +1,12 @@
-type piece               (*Notre structure piece *)
-type grid                (*Notre grille qui est constitué de listes de composants*)
+type piece = {
+  mutable sortie : bool;
+  mutable entree : bool;
+  mutable mur_h : bool;
+  mutable mur_b : bool;
+  mutable mur_d : bool;
+  mutable mur_g : bool;
+}
+type grid = (piece array) array                (*Notre grille qui est constitué de listes de composants*)
 
 
 (* Renvoi les dimensions du contenu d'un fichier (probablement txt) *)
