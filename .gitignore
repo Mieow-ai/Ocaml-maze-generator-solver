@@ -1,0 +1,20 @@
+# Dune / build
+_build/
+_dune/
+
+# OCaml compilation 
+*.cmi
+*.cmo
+*.cmx
+*.o
+*.a
+*.cma
+*.cmxa
+*.cmxs
+*.cmti
+*.cmt
+
+# Test / fichiers générés
+test/gen_tmp.laby
+tmp/
+*.log
