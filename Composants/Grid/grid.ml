@@ -19,7 +19,7 @@ let dim fichier =
       try
         let _ = input_line ouvert in
         loop (acc + 1)
-      with End_of_file -> acc
+      with End_of_file -> acc                   (*On arrête lorsqu'on est à la fin du fichier en renvoyant l'accumulateur*)
     in
     let lines = loop 1 in
     close_in ouvert;
@@ -36,7 +36,7 @@ let lire_ligne_murs ligne dim=
   let rec loop indice car =
     if indice < longueur - 1 then
       match car with 
-        |'+'->loop (indice+1) ligne.[indice+1] 
+        |'+'->loop (indice+1) ligne.[indice+1]                (*Nous avons fait en fonction du format de l'énoncé*)
         |'-'->loop (indice+1) ligne.[indice+1]
         |_-> failwith "Un mur ne peut etre que + ou -" in
   loop 0 ligne.[0]
@@ -49,7 +49,7 @@ let lire_ligne_piece ligne dim =
   let rec loop indice car =
     if indice < longueur - 1 then
       match car with 
-        |' '->loop (indice+1) ligne.[indice+1]
+        |' '->loop (indice+1) ligne.[indice+1]                (*Ici aussi nous avons fait en fonction du format de l'énoncé*)
         |'S'->loop (indice+1) ligne.[indice+1]
         |'E'->loop (indice+1) ligne.[indice+1]
         |'|'->loop (indice+1) ligne.[indice+1]
@@ -71,7 +71,7 @@ let lire_ligne_piece ligne dim =
     loop
 
     (* Créer une ligne de notre grille finale *)
-    let create_grid_line l1 l2 l3 dim_grid =                      (*l1, l2 et l3 représentent respectivement un trio de lignes de charactères du fichier représentant en réalité une ligne de pièces*)
+    let create_grid_line l1 l2 l3 dim_grid =                      (*l1, l2 et l3 représentent respectivement un trio de lignes de charactères du fichier, représentants en réalité une ligne de pièces*)
       let res = Array.init (snd dim_grid) (fun _-> {sortie= false; entree = false; mur_h = false; mur_b=false; mur_d= false; mur_g=false}) in
           for i = 0 to (snd dim_grid) - 1 do                      (*On initialise une grille de pièces avec false partout*)
             if l2.[2*i] = '|' then res.(i).mur_g <- true;         (*Puis on met true aux murs, toits, sols selon les charactères*)
@@ -116,7 +116,7 @@ let lire_ligne_piece ligne dim =
   for i = 0 to lignes - 1 do
     for j = 0 to colones - 1 do
       Printf.printf "+";
-      if grille.(i).(j).mur_h then Printf.printf "-" else Printf.printf " ";
+      if grille.(i).(j).mur_h then Printf.printf "-" else Printf.printf " ";    (*Ici on suit le format de l'énoncé aussi*)
     done;
     Printf.printf "+\n";
     for j = 0 to colones - 1 do
@@ -127,7 +127,7 @@ let lire_ligne_piece ligne dim =
     done;
     Printf.printf "|\n";
   done;
-  for j = 0 to colones - 1 do
+  for j = 0 to colones - 1 do     (*Dernière ligne de murs*)
     Printf.printf "+-"
   done;
   Printf.printf "+\n";
