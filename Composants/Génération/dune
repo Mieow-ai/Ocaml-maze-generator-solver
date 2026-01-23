@@ -1,4 +1,4 @@
-; dune file for Generation library
+; fichier dune pour le composant Génération
 (library
  (name generation)
 )

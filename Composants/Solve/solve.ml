@@ -1,9 +1,10 @@
 open Grid
 
-
+(* Vérifie si les coordonnées sont dans la liste des coordonnées *)
 let est_dans_chemin x y chemin =
   List.exists (fun (px, py) -> px = x && py = y) chemin
 
+(* Affiche la solution du labyrinthe *)
 let print_solve (grille : grid) chemin = 
   let lignes = Array.length grille in
   let colonnes = Array.length grille.(0) in
@@ -27,6 +28,7 @@ let print_solve (grille : grid) chemin =
   done;
   Printf.printf "+\n"
 
+(* Renvoie les coordonnées de l'entrée *)
 let entree_coord grille =
   let n = Array.length grille in
   let m = Array.length grille.(0) in
@@ -40,6 +42,7 @@ let entree_coord grille =
       in loop_j 0
   in loop_i 0
 
+(* Résout le labyrinthe *)
 let solve grille = 
   let n = Array.length grille in
   let m = Array.length grille.(0) in

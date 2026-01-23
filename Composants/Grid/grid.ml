@@ -9,6 +9,7 @@ type piece =
   }                                   
 type grid = (piece array) array                 (*Notre grille qui est constitué de listes de composants*)
 
+(* Renvoi les dimensions du contenu d'un fichier (probablement txt) *)
 let dim fichier =
   let ouvert = open_in fichier in
   try
@@ -27,7 +28,7 @@ let dim fichier =
     close_in_noerr ouvert;
     raise e
 
-
+(* Vérifie que les murs sont sous le bon format *)
 let lire_ligne_murs ligne dim=
   let longueur = String.length ligne in
   if snd dim != longueur then failwith "La ligne n'est pas a la bonne longueur"
@@ -39,7 +40,8 @@ let lire_ligne_murs ligne dim=
         |'-'->loop (indice+1) ligne.[indice+1]
         |_-> failwith "Un mur ne peut etre que + ou -" in
   loop 0 ligne.[0]
-  
+
+(* Vérifie que les pièces sont sous le bon format *)
 let lire_ligne_piece ligne dim =
   let longueur = String.length ligne in
   if snd dim != longueur then failwith "La ligne n'est pas a la bonne longueur"
@@ -54,6 +56,7 @@ let lire_ligne_piece ligne dim =
         |_-> failwith "Le format n'est pas respecte" in
   loop 0 ligne.[0]
 
+  (* Vérifie qu'un fichier est sous le bon format *)
   let check_format fichier = 
     let dimension = dim fichier in
     let ouvert = open_in fichier in
@@ -67,21 +70,22 @@ let lire_ligne_piece ligne dim =
         close_in ouvert in
     loop
 
-
-    let create_grid_line l1 l2 l3 dim_grid =
+    (* Créer une ligne de notre grille finale *)
+    let create_grid_line l1 l2 l3 dim_grid =                      (*l1, l2 et l3 représentent respectivement un trio de lignes de charactères du fichier représentant en réalité une ligne de pièces*)
       let res = Array.init (snd dim_grid) (fun _-> {sortie= false; entree = false; mur_h = false; mur_b=false; mur_d= false; mur_g=false}) in
-          for i = 0 to (snd dim_grid) - 1 do
-            if l2.[2*i] = '|' then res.(i).mur_g <- true;
+          for i = 0 to (snd dim_grid) - 1 do                      (*On initialise une grille de pièces avec false partout*)
+            if l2.[2*i] = '|' then res.(i).mur_g <- true;         (*Puis on met true aux murs, toits, sols selon les charactères*)
             if l1.[2*i+1] = '-' then res.(i).mur_h <- true;
             if l3.[2*i+1] = '-' then res.(i).mur_b <- true;
             (match l2.[2*i+1] with
-            | 'E' -> res.(i).entree <- true
+            | 'E' -> res.(i).entree <- true                       (*On complète l'entrée et la sortie*)
             | 'S' -> res.(i).sortie <- true
             | _ -> ());
             if l2.[2*i+2] = '|' then res.(i).mur_d <- true;
           done;
       res     
-                
+  
+  (* Converti le labyrinthe d'un fichier selon notre structure de données *)
   let load fichier =
 
     check_format(fichier);
@@ -97,7 +101,7 @@ let lire_ligne_piece ligne dim =
         let l2 = input_line ouvert in
         let l3 = input_line ouvert in
 
-        res.(ind) <- create_grid_line l1 l2 l3 dim_grid;
+        res.(ind) <- create_grid_line l1 l2 l3 dim_grid;          (*On a plus qu'à appeler create_grid_line sur chaque ligne de pièces pour remplir la grille*)
         loop l3 (ind + 1)
         end
       with End_of_file ->
@@ -105,7 +109,7 @@ let lire_ligne_piece ligne dim =
     loop l1 0;
     res
 
-
+  (* Affiche le labyrinthe d'un fichier *)
   let print grille =
   let lignes = Array.length grille in
   let colones = Array.length grille.(0) in

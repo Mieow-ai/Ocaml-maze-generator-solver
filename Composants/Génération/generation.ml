@@ -55,16 +55,15 @@ let random n m filename =
 
   output_string file (first_and_last ^ "\n");                 (* ligne du premier toit *)
 
-  for row = 0 to n - 2 do
+  for row = 0 to n - 1 do
     let base = random_line_walls m in                         (* ligne des murs *)
     let chars = Bytes.of_string base in
     if row = e_row then Bytes.set chars (2 * e_col + 1) 'E';  (* placement de E et S *)
     if row = s_row then Bytes.set chars (2 * s_col + 1) 'S';
     output_string file (Bytes.to_string chars ^ "\n");
-    output_string file (random_line_floors m ^ "\n");         (* ligne des sols *)
+    if row < n - 1 then output_string file (random_line_floors m ^ "\n");
   done;
-  output_string file (random_line_walls m ^ "\n");            (* ligne du toit de la dernière rangée *)
-  output_string file (first_and_last ^ "\n");                 (* ligne du dernier sol *)
+  output_string file (first_and_last ^ "\n");
 
   close_out file
 
