@@ -41,6 +41,7 @@ let () =
             print_endline "  print2 <fichier>                 : Affiche directement le contenu brut d'un fichier.";
             print_endline "  random <lignes> <colonnes> <nom> : Génère un labyrinthe aléatoire de dimensions données et le sauvegarde.";
             print_endline "  solve                            : Résout le labyrinthe.";
+            print_endline "  tests                            : Lance le fichier de tests";
             print_endline "  --help                           : Affiche ce message d'aide.";
             print_endline "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
         | "solve" -> (
@@ -50,5 +51,19 @@ let () =
                 let fichier = Sys.argv.(2) in
                 let g = Grid.load fichier in
                 Solve.solve g
+        )
+        | "tests" -> (
+            let chemins = ["./Composants/Tests_functions/tests_fonctions.exe"; "_build/default/Composants/Tests_fonctions/tests_fonctions.exe"] in
+            let runner = 
+                try Some (List.find (fun p -> Sys.file_exists p) chemins)
+                with _ -> None
+            in
+            let cmd = 
+                match runner with
+                |Some p -> p
+                |None -> "dune exec ./Composants/Tests_fonctions/tests_fonctions.exe" 
+            in
+            let code = Sys.command cmd in
+            if code <> 0 then (prerr_endline "Tests failed"; exit code) else ()
         )
         | _ -> failwith "Commande manquante"

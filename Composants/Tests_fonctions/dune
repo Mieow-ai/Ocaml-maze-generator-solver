@@ -1,0 +1,4 @@
+(executable
+ (name tests_fonctions)
+ (libraries grid generation)
+)

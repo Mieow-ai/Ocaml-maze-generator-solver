@@ -31,8 +31,7 @@ Le projet vise à explorer des **algorithmes de graphes**, à manipuler des stru
 dune exec -- ./maze.exe random [m] [n] [nom_ficher]
 ```
 
-### Grid Module grid permet de convertir un labyrinthe d'un fichier texte en la structure de donnée que nous avons
-### implémentés et de l'afficher selon notre structure de données dans la console utilisateur.
+### Grid Module grid permet de convertir un labyrinthe d'un fichier texte en la structure de donnée que nous avons implémentés et de l'afficher selon notre structure de données dans la console utilisateur.
 * **Commande :** 
 ```bash
 dune exec -- ./maze.exe print2 [chemin_ficher]
@@ -42,6 +41,12 @@ dune exec -- ./maze.exe print2 [chemin_ficher]
 * **Commande :** 
 ```bash
 dune exec -- ./maze.exe solve [chemin_ficher]
+```
+
+### Tests_fonctions Module tests_fonctions qui teste tout simplement nos fonctions
+* **Commande :** 
+```bash
+dune exec -- ./maze.exe tests
 ```
 
 ## Compilation
