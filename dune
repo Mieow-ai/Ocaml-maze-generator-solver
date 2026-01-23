@@ -5,5 +5,5 @@
 
 (executable
  (name maze)
- (libraries unix)
+ (libraries grid generation solve unix)
  (promote (until-clean)))

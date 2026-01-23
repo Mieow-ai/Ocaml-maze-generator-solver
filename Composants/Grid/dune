@@ -1,0 +1,4 @@
+; fichier dune pour le composant Grid
+(library
+ (name grid)
+)

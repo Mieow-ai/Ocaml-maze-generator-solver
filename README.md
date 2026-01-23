@@ -23,6 +23,27 @@ Le projet vise à explorer des **algorithmes de graphes**, à manipuler des stru
 * **OCaml** (version récente recommandée)
 * **Dune** (système de build)
 
+## Composants
+
+### Génération Module generation qui génère aléatoirement un labyrinthe dans un fichier texte
+* **Commande :** 
+```bash
+dune exec -- ./maze.exe random [m] [n] [nom_ficher]
+```
+
+### Grid Module grid permet de convertir un labyrinthe d'un fichier texte en la structure de donnée que nous avons
+### implémentés et de l'afficher selon notre structure de données dans la console utilisateur.
+* **Commande :** 
+```bash
+dune exec -- ./maze.exe print2 [chemin_ficher]
+```
+
+### Solve Module solve qui résoud le labyrinthe et trouve le chemin de l'entrée vers la sortie.
+* **Commande :** 
+```bash
+dune exec -- ./maze.exe solve [chemin_ficher]
+```
+
 ## Compilation
 
 Pour compiler le projet et générer l'exécutable, on se place à la racine du projet et on fait :

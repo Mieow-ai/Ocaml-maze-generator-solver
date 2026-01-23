@@ -1,0 +1,5 @@
+; fichier dune pour le composant Solve
+(library
+ (name solve)
+ (libraries grid)
+)
