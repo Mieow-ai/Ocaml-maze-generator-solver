@@ -1,77 +1,86 @@
-# Projet OCaml : Labyrinthe
+# OCaml Project: Maze Generator & Solver
 
-Ceci est notre projet labyrinthe qui consiste à généré aléatoirement, afficher et chargé des labyrinthes sous forme de texte dans des fichiers et à partir de fichiers textes ou d'une structure qui nous est propre, notre structure grid.
+This project consists of randomly generating, loading, displaying, and solving mazes in OCaml. Mazes are handled both as ASCII text files and through our custom in-memory data structure (`grid`).
 
-Le projet vise à explorer des **algorithmes de graphes**, à manipuler des structures de données en **Ocaml**, et à combiner une approche fonctionnelle avec des éléments impératifs (tableaux, entrées-sorties).
+The project aims to explore **graph algorithms**, manipulate data structures in **OCaml**, and combine a functional programming approach with imperative features (arrays, file I/O).
 
-## Binôme et Groupe
+## Authors
 
-### Corvoysier Simon
-### Shortall Antoine
-### LDD2 IM1
+* **Corvoysier Simon**
+* **Shortall Antoine**
 
-## Objectifs du projet
+## Project Objectives
 
-1.  **Algorithmique :** Mise en œuvre d'algorithmes fondamentaux (génération, parcours en profondeur, etc.).
-2.  **Paradigmes :** Mélange de code fonctionnel pur et d'effets de bord (gestion de fichiers, `Array`, etc.).
-3.  **Génie Logiciel :** Organisation modulaire, utilisation de `dune` pour le build, et gestion des arguments CLI.
+1. **Algorithms:** Implementation of fundamental graph algorithms (random maze generation, Depth-First Search solving, etc.).
+2. **Paradigms:** Combining pure functional code with controlled side effects (file management, mutable `Array` structures).
+3. **Software Engineering:** Modular architecture, build automation using `dune`, and CLI argument parsing.
 
 ---
 
-## Prérequis
+## Prerequisites
 
-* **OCaml** (version récente recommandée)
-* **Dune** (système de build)
+* **OCaml** (recent version recommended)
+* **Dune** (build system)
 
-## Composants
+## Components & Modules
 
-### Génération Module generation qui génère aléatoirement un labyrinthe dans un fichier texte
-* **Commande :** 
+### `Generation`
+Randomly generates a valid maze and saves it into a text file.
+* **Command:**
 ```bash
-dune exec -- ./maze.exe random [m] [n] [nom_ficher]
+dune exec -- ./maze.exe random [m] [n] [filename]
 ```
 
-### Grid Module grid permet de convertir un labyrinthe d'un fichier texte en la structure de donnée que nous avons implémentés et de l'afficher selon notre structure de données dans la console utilisateur.
-* **Commande :** 
+### `Grid`
+Parses a maze from a text file into our custom `grid` data structure and displays it in the console.
+* **Command:**
 ```bash
-dune exec -- ./maze.exe print2 [chemin_ficher]
+dune exec -- ./maze.exe print2 [filepath]
 ```
 
-### Solve Module solve qui résoud le labyrinthe et trouve le chemin de l'entrée vers la sortie.
-* **Commande :** 
+### `Solve`
+Solves the maze and finds a valid path from the entrance (`E`) to the exit (`S`).
+* **Command:**
 ```bash
-dune exec -- ./maze.exe solve [chemin_ficher]
+dune exec -- ./maze.exe solve [filepath]
 ```
 
-### Tests_fonctions Module tests_fonctions qui teste tout simplement nos fonctions
-* **Commande :** 
+### `Tests_fonctions`
+Unit testing module used to validate the core functions of the project.
+* **Command:**
 ```bash
 dune exec -- ./maze.exe tests
 ```
 
-## Compilation
+---
 
-Pour compiler le projet et générer l'exécutable, on se place à la racine du projet et on fait :
+## Build
+
+To compile the project and generate the executable, run the following command from the project root:
 
 ```bash
 dune build
 ```
 
-## Exécution
+## Usage
 
-### Globale
+### General Syntax
 ```bash
-dune exec -- ./maze.exe <commande> [arguments]
+dune exec -- ./maze.exe <command> [arguments]
 ```
-### Aide 
+
+### Help
 ```bash
 dune exec -- ./maze.exe --help
 ```
-### Exemples
+
+### Examples
+Generate a 15×30 maze into `data.laby`:
 ```bash
 dune exec -- ./maze.exe random 15 30 data.laby
 ```
+
+Display `data.laby` in the terminal:
 ```bash
 dune exec -- ./maze.exe print data.laby
 ```
-
