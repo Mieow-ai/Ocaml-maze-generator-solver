@@ -16,7 +16,7 @@ Visual examples and illustrations are available directly in the [project report]
 ```text
 ├── Composants/                  # Core OCaml modules (Grid, Generation, Solve, Tests_fonctions)
 ├── Tests/                       # Sample mazes and validation test files (e.g., test9.txt)
-├── test/                        # Unit test fixtures and sample .laby files
+├── test/                        # Sample .laby files
 ├── maze.ml                      # Main entry point and CLI argument parser
 ├── dune                         # Dune build rules
 ├── dune-project                 # Dune project configuration
