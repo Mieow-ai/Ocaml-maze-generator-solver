@@ -4,6 +4,8 @@ This project consists of randomly generating, loading, displaying, and solving m
 
 The project aims to explore **graph algorithms**, manipulate data structures in **OCaml**, and combine a functional programming approach with imperative features (arrays, file I/O).
 
+Visual examples and illustrations are available directly in the project report.
+
 ## Authors
 
 * **Corvoysier Simon**
