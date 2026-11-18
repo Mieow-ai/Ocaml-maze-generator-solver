@@ -4,12 +4,25 @@ This project consists of randomly generating, loading, displaying, and solving m
 
 The project aims to explore **graph algorithms**, manipulate data structures in **OCaml**, and combine a functional programming approach with imperative features (arrays, file I/O).
 
-Visual examples and illustrations are available directly in the project report.
+Visual examples and illustrations are available directly in the [project report](./Maze_Project_EN_Report.pdf).
 
 ## Authors
 
 * **Corvoysier Simon**
 * **Shortall Antoine**
+
+## Architecture
+
+```text
+├── Composants/                  # Core OCaml modules (Grid, Generation, Solve, Tests_fonctions)
+├── Tests/                       # Sample mazes and validation test files (e.g., test9.txt)
+├── test/                        # Unit test fixtures and sample .laby files
+├── maze.ml                      # Main entry point and CLI argument parser
+├── dune                         # Dune build rules
+├── dune-project                 # Dune project configuration
+├── Maze_Project_EN_Report.pdf   # Detailed technical report with visual examples
+└── README.md                    # Project documentation
+```
 
 ## Project Objectives
 
